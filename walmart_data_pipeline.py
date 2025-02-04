@@ -35,29 +35,48 @@ print(missing_info)
      # }, inplace = True
     #)
     
+# the transform() function with one parameter: "raw_data"
+#def transform(raw_data):
+    
+
+  #  merged_df.fillna(
+   #     {
+    #       'CPI': raw_data['CPI'].mean(),
+    #      'Weekly_Sales': raw_data['Weekly_Sales'].mean(),
+     #     'Unemployment': raw_data['Unemployment'].mean(),
+     # }, inplace = True
+    #)
+    
 def transform(raw_data):
     # numeric columns
     num_cols = ['Weekly_Sales', 'CPI', 'Unemployment']
     raw_data[num_cols] = raw_data[num_cols].fillna(raw_data[num_cols].mean())
 
+    raw_data["Month"] = raw_data["Date"].dt.month
+    
+    columns_to_drop = ["index", "Temperature", "Fuel_Price", "MarkDown1", "MarkDown2", "MarkDown3", "MarkDown5", "MarkDown4", "Type", "Size"]
+    raw_data = raw_data.drop(columns=[col for col in columns_to_drop if col in raw_data.columns])  #  Removes unwanted columns
+
+    
+    raw_data = raw_data[raw_data["Weekly_Sales"] > 10000]
+    
     #
-    markdown_cols = ['MarkDown4', 'MarkDown5']
-    raw_data[markdown_cols] = raw_data[markdown_cols].fillna(0)
+   # markdown_cols = ['MarkDown4', 'MarkDown5']
+   # raw_data[markdown_cols] = raw_data[markdown_cols].fillna(0)
 
     #  categorical columns -> (mode)
-    categorical_cols = ['Type']
-    for col in categorical_cols:
-        raw_data[col].fillna(raw_data[col].mode()[0], inplace=True)
+  #  categorical_cols = ['Type']
+  #  for col in categorical_cols:
+   #     raw_data[col].fillna(raw_data[col].mode()[0], inplace=True)
 
-    # "Date" forward-fill (assumes missing values should take the previous date)
+     "Date" forward-fill (assumes missing values should take the previous date)
     raw_data['Date'] = raw_data['Date'].fillna(method='ffill')
 
     # "Size" with the median (as store sizes can vary widely)
-    raw_data['Size'] = raw_data['Size'].fillna(raw_data['Size'].median())
+    #raw_data['Size'] = raw_data['Size'].fillna(raw_data['Size'].median())
 
     return raw_data
     pass
-
 
 clean_data = transform(merged_df)
 #print(clean_data)
@@ -74,7 +93,7 @@ def avg_weekly_sales_per_month(clean_data):
     #  Group by and Calculated Average Weekly Sales
     monthly_avg_sales = clean_data.groupby("Year-Month")["Weekly_Sales"].mean().reset_index()
 
-    monthly_avg_sales.rename(columns={"Weekly_Sales": "Avg_Weekly_Sales"}, inplace=True)
+    monthly_avg_sales.rename(columns={"Weekly_Sales": "Avg_Sales"}, inplace=True)
 
     return monthly_avg_sales
     
