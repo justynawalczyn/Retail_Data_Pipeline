@@ -7,9 +7,7 @@ Builded a data pipeline using custom functions to extract, transform, aggregate,
 DATA:
 
 grocery_sales
-
 "index" - unique ID of the row
-
 "Store_ID" - the store number
 "Date" - the week of sales
 "Weekly_Sales" - sales for the given store
@@ -25,7 +23,9 @@ extra_data.parquet
 "Dept" - Department Number in each store
 "Size" - size of the store
 "Type" - type of the store (depends on Size column)
- merged those files and performed some data manipulations. The transformed DataFrame can then be stored as the clean_data variable containing the following columns:
+
+merged those files and performed some data manipulations. The transformed DataFrame can then be stored as the clean_data variable containing the following columns:
+
 
 "Store_ID"
 "Month"
