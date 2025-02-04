@@ -5,8 +5,11 @@ Repository contains the project "Building new retail data pipeline" based on dat
 Builded a data pipeline using custom functions to extract, transform, aggregate, and load e-commerce data.
 
 DATA:
+
 grocery_sales
+
 "index" - unique ID of the row
+
 "Store_ID" - the store number
 "Date" - the week of sales
 "Weekly_Sales" - sales for the given store
